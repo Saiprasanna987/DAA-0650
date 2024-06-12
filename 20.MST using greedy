@@ -1,0 +1,68 @@
+#include <stdio.h>
+
+int main() {
+	printf("D.sai prasanna kumar,192210609\n");
+    int V, E;
+    printf("Enter the number of vertices: ");
+    scanf("%d", &V);
+    printf("Enter the number of edges: ");
+    scanf("%d", &E);
+
+    int edges[E][3]; 
+    printf("Enter the edges and their weights:\n");
+    for (int i = 0; i < E; i++) {
+        scanf("%d %d %d", &edges[i][0], &edges[i][1], &edges[i][2]);
+    }
+
+    for (int i = 0; i < E; i++) {
+        for (int j = i + 1; j < E; j++) {
+            if (edges[i][2] > edges[j][2]) {
+                int temp = edges[i][0];
+                edges[i][0] = edges[j][0];
+                edges[j][0] = temp;
+                temp = edges[i][1];
+                edges[i][1] = edges[j][1];
+                edges[j][1] = temp;
+                temp = edges[i][2];
+                edges[i][2] = edges[j][2];
+                edges[j][2] = temp;
+            }
+        }
+    }
+
+    int parent[V];
+    for (int i = 0; i < V; i++)
+        parent[i] = -1;
+
+    int result[V - 1][2]; // result[i][0] = source, result[i][1] = destination
+    int e = 0;
+    int i = 0;
+    int minCost = 0;
+
+    while (e < V - 1) {
+        int x = edges[i][0];
+        int y = edges[i][1];
+        int xset = x;
+        int yset = y;
+        while (parent[xset] != -1)
+            xset = parent[xset];
+        while (parent[yset] != -1)
+            yset = parent[yset];
+        if (xset != yset) {
+            result[e][0] = x;
+            result[e][1] = y;
+            e++;
+            parent[xset] = yset;
+            minCost += edges[i][2]; 
+        }
+        i++;
+    }
+
+    printf("Edges in the MST:\n");
+    for (int i = 0; i < V - 1; i++)
+        printf("%d -- %d\n", result[i][0], result[i][1]);
+
+    printf("Minimum cost of MST: %d\n", minCost);
+
+    return 0;
+}
