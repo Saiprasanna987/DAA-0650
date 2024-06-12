@@ -1,0 +1,12 @@
+#include <stdio.h>
+int main() {
+	printf("D.sai prasanna kumar,192210609\n");
+    char str[100];
+    printf("enter a string:");
+    scanf("%s",&str);
+    int len = 0;
+    while (str[len]!= '\0') {
+        len++;
+    }
+    printf("Length of the string: %d\n", len);
+}
