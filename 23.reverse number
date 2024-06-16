@@ -1,0 +1,15 @@
+#include<stdio.h>
+int main()
+{
+	printf("D.sai prasanna kumar,192210609\n");
+	int n,a,sum=0;
+	printf("enter a number:");
+	scanf("%d",&n);
+	while(n>0)
+	{
+		a=n%10;
+		sum=sum*10+a;
+		n=n/10;
+	}
+	printf("reversed number=%d",sum);
+}
