@@ -1,0 +1,42 @@
+#include <stdio.h>
+#define MAX_VERTICES 10
+int main() {
+	printf("D.sai prasanna kumar,192210609\n\n");
+    int n;
+    printf("Enter the number of vertices: ");
+    scanf("%d", &n);
+    if (n > MAX_VERTICES) {
+        printf("Maximum number of vertices exceeded. Please try again.\n");
+        return 1;
+    }
+    int graph[MAX_VERTICES][MAX_VERTICES];
+    printf("Enter the adjacency matrix:\n");
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            scanf("%d", &graph[i][j]);
+        }
+    }
+    int dist[MAX_VERTICES][MAX_VERTICES];
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            dist[i][j] = graph[i][j];
+        }
+    }
+    for (int k = 0; k < n; k++) {
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (dist[i][k] + dist[k][j] < dist[i][j]) {
+                    dist[i][j] = dist[i][k] + dist[k][j];
+                }
+            }
+        }
+    }
+    printf("Shortest distance matrix:\n");
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            printf("%d ", dist[i][j]);
+        }
+        printf("\n");
+    }
+    return 0;
+}
