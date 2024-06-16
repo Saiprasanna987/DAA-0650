@@ -1,0 +1,57 @@
+#include <stdio.h>
+#include <stdbool.h>
+#define MAX 20
+int board[MAX][MAX];
+int n;
+void printBoard() {
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            printf("%c ", board[i][j] ? 'Q' : '.');
+        }
+        printf("\n");
+    }
+}
+bool isSafe(int row, int col) {
+    int i, j;
+    for (i = 0; i < col; i++)
+        if (board[row][i])
+            return false;
+    for (i = row, j = col; i >= 0 && j >= 0; i--, j--)
+        if (board[i][j])
+            return false;
+    for (i = row, j = col; j >= 0 && i < n; i++, j--)
+        if (board[i][j])
+            return false;
+    return true;
+}
+bool solveNQUtil(int col) {
+    if (col >= n)
+        return true;
+    for (int i = 0; i < n; i++) {
+        if (isSafe(i, col)) {
+            board[i][col] = 1;
+            if (solveNQUtil(col + 1))
+                return true;
+            board[i][col] = 0;
+        }
+    }
+    return false;
+}
+int main() {
+	 printf("D.sai prasanna kumar,192210609\n");
+    printf("Enter the size of the board (N): ");
+    scanf("%d", &n);
+    if (n < 1 || n > MAX) {
+        printf("Invalid board size! Please enter a value between 1 and %d.\n", MAX);
+        return 1;
+    }
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < n; j++)
+            board[i][j] = 0;
+    if (!solveNQUtil(0)) {
+        printf("Solution does not exist.\n");
+    } else {
+        printBoard();
+    }
+    return 0;
+}
