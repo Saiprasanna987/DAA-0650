@@ -1,0 +1,45 @@
+#include <stdio.h>
+#include <limits.h>
+#define MAX_CITIES 10
+int main() {
+	printf("D.sai prasanna kumar,192210609\n");
+    int n;
+    printf("Enter the number of cities: ");
+    scanf("%d", &n);
+    if (n > MAX_CITIES) {
+        printf("Maximum number of cities exceeded. Please try again.\n");
+        return 1;
+    }
+    int cost[MAX_CITIES][MAX_CITIES]; 
+    printf("Enter the cost matrix:\n");
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            scanf("%d", &cost[i][j]);
+        }
+    }
+    int dp[1 << n][n];
+    for (int i = 0; i < (1 << n); i++) {
+        for (int j = 0; j < n; j++) {
+            dp[i][j] = INT_MAX;
+        }
+    }
+    dp[1][0] = 0;
+    for (int mask = 1; mask < (1 << n); mask++) {
+        for (int i = 0; i < n; i++) {
+            if ((mask & (1 << i)) == 0) continue; 
+            for (int j = 0; j < n; j++) {
+                if (i == j) continue; 
+                if ((mask & (1 << j)) == 0) continue; 
+                int new_mask = mask ^ (1 << i);
+                dp[mask][i] = dp[new_mask][j] + cost[j][i];
+            }
+        }
+    }
+    int min_cost = INT_MAX;
+    for (int i = 1; i < n; i++) {
+        min_cost = (dp[(1 << n) - 1][i] + cost[i][0] < min_cost)?
+                   dp[(1 << n) - 1][i] + cost[i][0] : min_cost;
+    }
+    printf("Minimum cost: %d\n", min_cost);
+    return 0;
+}
